@@ -1,0 +1,95 @@
+
+services:
+  api: &api
+    build:
+      context: .
+      dockerfile: ./docker/local/django/Dockerfile
+    image: vet_prod_api
+    container_name: vet_prod_api
+    volumes:
+      - .:/app:z
+      - vet_static_volume:/app/staticfiles
+    expose:
+      - "8000"  
+    env_file:
+      - ./.envs/.env.local
+    depends_on:
+      - postgres
+      - mailpit
+      - redis
+    command: /start
+    networks:
+      - vet_prod_nw
+
+  postgres:
+    build:
+      context: .
+      dockerfile: ./docker/local/postgres/Dockerfile
+    image: vet_prod_postgres
+    container_name: vet_prod_postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - vet_prod_postgres_data:/var/lib/postgresql/data
+    env_file:
+      - ./.envs/.env.local
+    networks:
+      - vet_prod_nw
+
+  mailpit:
+    image: docker.io/axllent/mailpit:v1.15
+    container_name: vet_prod_mailpit
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+    volumes:  
+      - vet_prod_mailpit_data:/data
+    environment:
+      MP_MAX_MESSAGES: 5000
+      MP_DATA_FILE: /data/mailpit.db
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1  
+    networks:
+      - vet_prod_nw
+
+  redis:
+    image: redis:7.0-alpine3.19
+    command: redis-server --appendonly yes
+    container_name: vet_redis
+    volumes:
+      - vet_redis_prod_data:/data
+    networks:
+      - vet_prod_nw
+
+  celeryworker:
+    <<: *api
+    image: vet_prod_celeryworker
+    container_name: vet_prod_celeryworker
+    command: /start-celeryworker
+
+  celerybeat:
+    <<: *api
+    image: vet_prod_celerybeat
+    container_name: vet_prod_celerybeat
+    command: /start-celerybeat
+
+  flower:
+    <<: *api
+    image: vet_prod_flower
+    container_name: vet_prod_flower
+    ports:
+      - "5555:5555"
+    command: /start-flower
+
+networks:
+  vet_prod_nw:
+    external: true
+
+volumes:
+  vet_static_volume:
+    external: true
+  vet_prod_postgres_data: {}
+  vet_prod_mailpit_data: {}
+  vet_redis_prod_data: {}
+  logs_store: {}
+  
