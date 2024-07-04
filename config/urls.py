@@ -22,7 +22,7 @@ urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
     path("api/v1/auth/", include("djoser.urls")),
     path("api/v1/auth/", include("core_apps.users.urls")),
-    
+    path("api/v1/patients/", include("core_apps.patients.urls")),   
 ]
 
 admin.site.site_header = "Vet Management Admin"
