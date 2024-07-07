@@ -20,10 +20,16 @@ class PatientListAPIView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     object_label = "patients"
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    search_fields = ["name"]
-    filterset_fields = ["sex", "species"]
+    search_fields = ["name", "owner__name", "owner__phone_number"]
+    filterset_fields = ["gender", "species"]
     queryset = Patient.objects.all()
-    
+
+
+class PatientDetailAPIView(generics.RetrieveAPIView):
+    serializer_class = PatientSerializer
+    renderer_classes = [GenericJSONRenderer]
+    object_label = "patient"
+
 
 class PatientCreateAPIView(generics.CreateAPIView):
     queryset = Patient.objects.all()

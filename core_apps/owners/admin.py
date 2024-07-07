@@ -1,7 +1,9 @@
 from django.contrib import admin
 from .models import Owner
+from django.contrib import admin
 
-# Register your models here.
+
 @admin.register(Owner)
-class OwnerProfile(admin.ModelAdmin):
-    list_display = ["id", "name", "phone_number", "email"]
+class OwnerAdmin(admin.ModelAdmin):
+    list_display = ('name', 'phone_number', 'email')
+    search_fields = ('name', 'phone_number')
