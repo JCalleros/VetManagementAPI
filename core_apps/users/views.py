@@ -65,8 +65,7 @@ class CustomTokenRefreshView(TokenRefreshView):
         
         
         refresh_res = super().post(request, *args, **kwargs)
-        
-        if refresh_token.status_code == status.HTTP_200_OK:
+        if refresh_res.status_code == status.HTTP_200_OK:
             access_token = refresh_res.data.get("access")
             refresh_token = refresh_res.data.get("access")
             

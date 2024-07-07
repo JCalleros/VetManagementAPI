@@ -1,12 +1,16 @@
+from autoslug import AutoSlugField
 from cloudinary.models import CloudinaryField
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from django_countries.fields import CountryField
 from phonenumber_field.modelfields import PhoneNumberField
 from core_apps.common.models import TimeStampedModel
 
 User = get_user_model()
+
+
+def get_user_email(instance: "Profile") -> str:
+    return instance.user.email
 
 
 class Profile(TimeStampedModel):
@@ -30,3 +34,4 @@ class Profile(TimeStampedModel):
     )
     
     phone_numbe = PhoneNumberField(verbose_name=_("Phone Number"), max_length=30, default="+545532098725")
+    slug = AutoSlugField(populate_from=get_user_email, unique=True)
