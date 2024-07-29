@@ -12,7 +12,6 @@ from django.shortcuts import render
 logger = logging.getLogger(__name__)
 
 def set_auth_cookies(response: Response, access_token: str, refresh_token: Optional[str]=None) -> None:
-    logger.info("Setting auth cookies")
     access_token_lifetime = settings.SIMPLE_JWT["ACCESS_TOKEN_LIFETIME"].total_seconds()
     cookie_settings = {
         "path": settings.COOKIE_PATH,
@@ -59,17 +58,17 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 class CustomTokenRefreshView(TokenRefreshView):
     def post(self, request:Request, *args, **kwargs) -> Response:
         refresh_token = request.COOKIES.get("refresh")
-        
         if refresh_token:
             request.data["refresh"] = refresh_token
-        
-        
+
         refresh_res = super().post(request, *args, **kwargs)
+        logger.info(f"Refresh token: {refresh_token}")
         if refresh_res.status_code == status.HTTP_200_OK:
             access_token = refresh_res.data.get("access")
-            refresh_token = refresh_res.data.get("access")
+            refresh_token = refresh_res.data.get("refresh")
             
             if access_token and refresh_token:
+                logger.info(f"Access and Refresh true, set auth_cookies")
                 set_auth_cookies(refresh_res, access_token=access_token, refresh_token=refresh_token)
                 refresh_res.data.pop("access", None)
                 refresh_res.data.pop("refresh", None)

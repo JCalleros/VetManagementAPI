@@ -25,3 +25,21 @@ class CanCreateEditPatient(permissions.BasePermission):
             return True
 
         return False
+    
+class CanDeletePatient(permissions.BasePermission):
+    message = "You do not have permission to delete this patient"
+
+    def has_permission(self, request: Request, view: View) -> bool:
+        user = request.user
+        if not user or not user.is_authenticated:
+            self.message = "Authentication is required to access this resource"
+            return False
+
+        if user.is_superuser or user.is_staff:
+            return True
+
+        profile = getattr(user, "profile", None)
+        if profile and profile.occupation == Profile.Occupation.Vet:
+            return True
+
+        return False

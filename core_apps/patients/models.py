@@ -1,11 +1,10 @@
-import uuid
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from core_apps.common.models import TimeStampedModel
 from django.core.validators import MinValueValidator, MaxValueValidator
 from cloudinary.models import CloudinaryField
 from core_apps.owners.models import Owner
-from django.core.exceptions import ValidationError
+from autoslug import AutoSlugField
 
 
 class Patient(TimeStampedModel):
@@ -34,7 +33,8 @@ class Patient(TimeStampedModel):
     color = models.CharField(max_length=100, null=True, blank=True)
     photo = CloudinaryField(verbose_name=_("Photo"), blank=True, null=True)
     owner = models.ForeignKey(Owner, on_delete=models.PROTECT, verbose_name=_("Owner"), related_name='patients')
-    
+    slug = AutoSlugField(populate_from="name", unique=True)
+
     def __str__(self) -> str:
         return f"{self.name}"        
     
