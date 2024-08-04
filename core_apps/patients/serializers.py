@@ -1,4 +1,6 @@
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
+from django.db import IntegrityError
 from core_apps.owners.models import Owner
 from .models import Patient
 from core_apps.owners.serializers import OwnerSerializer
@@ -15,9 +17,13 @@ class PatientSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         owner_uuid = self.initial_data.get('owner')
         owner = Owner.objects.get(id=owner_uuid)
-        patient = Patient.objects.create(**validated_data, owner=owner)
+        try:
+            patient = Patient.objects.create(**validated_data, owner=owner)
+        except IntegrityError: 
+            raise ValidationError({"detail": "Duplicate patient"})
         return patient
-    
+
+
     def update(self, instance, validated_data):
         owner_uuid = validated_data.pop('owner', None)
         if owner_uuid:
