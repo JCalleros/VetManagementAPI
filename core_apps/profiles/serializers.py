@@ -1,6 +1,5 @@
 from django_countries.serializer_fields import CountryField
 from rest_framework import serializers
-from core_apps.apartments.serializers import ApartmentSerializer
 
 from .models import Profile
 

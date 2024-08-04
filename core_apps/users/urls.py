@@ -8,7 +8,7 @@ urlpatterns = [
         CustomProviderAuthView.as_view(),
         name="provider-auth",
     ),
-    path("login/", CustomTokenObtainPairView.as_view()),
-    path("refresh/", CustomTokenRefreshView.as_view()),
-    path("logout/", LogoutAPIView.as_view()),
+    path("login/", CustomTokenObtainPairView.as_view(), name='login'),
+    path("refresh/", CustomTokenRefreshView.as_view(), name='refresh'),
+    path("logout/", LogoutAPIView.as_view(), name='logout'),
 ]
