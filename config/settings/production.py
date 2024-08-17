@@ -41,7 +41,7 @@ CSRF_COOKIE_HTTPONLY = True
 ALLOWED_HOSTS = [".onrender.com"]
 
 # Additional CORS settings, if needed
-CORS_ALLOWED_ORIGINS = [".onrender.com"]
+CORS_ALLOWED_ORIGINS = getenv("CORS_ALLOWED_ORIGINS", "").split(","),
 
 # Ensure other security-related settings are correctly configured
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
