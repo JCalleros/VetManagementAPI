@@ -14,7 +14,7 @@ SECRET_KEY = getenv("DJANGO_SECRET_KEY")
 
 ADMIN_URL = getenv("DJANGO_ADMIN_URL")
 
-ALLOWED_HOSTS = ["vetmanagementapi.onrender.com"]
+ALLOWED_HOSTS = [".onrender.com"]
 
 ADMINS=[("Jorge Calleros", "calleros.dev@gmail.com"),]
 
@@ -29,21 +29,15 @@ DEFAULT_FROM_EMAIL = getenv("DEFAULT_FROM_EMAIL")
 SERVER_EMAIL = getenv("DEFAULT_FROM_EMAIL")
 DOMAIN = getenv("DOMAIN")
 
-
-COOKIE_SECURE = True
-COOKIE_SAMESITE = 'None'
-CORS_ALLOW_CREDENTIALS = True
-CSRF_TRUSTED_ORIGINS = [".onrender.com"]
-CSRF_COOKIE_SECURE = True
-CSRF_COOKIE_SAMESITE = 'None'
-CSRF_COOKIE_HTTPONLY = True
-ALLOWED_HOSTS = [".onrender.com"]
-
-# Additional CORS settings, if needed
 CORS_ALLOWED_ORIGINS=["https://vetmanagementwebclient.onrender.com"]
 
-# Ensure other security-related settings are correctly configured
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+SECURE_SSL_REDIRECT = getenv("DJANGO_SECURE_SSL_REDIRECT", "True") == "True"
+
+SESSION_COOKIE_SECURE = True
+
+CSRF_TRUSTED_ORIGINS = ["https://www.vetmanagementwebclient.onrender.com", "https://vetmanagementwebclient.onrender.com"]
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
