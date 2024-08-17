@@ -35,6 +35,12 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 SECURE_SSL_REDIRECT = getenv("DJANGO_SECURE_SSL_REDIRECT", "True") == "True"
 
+
+COOKIE_NAME="access"
+COOKIE_SAMESITE="None"
+COOKIE_PATH="/"
+COOKIE_HTTPONLY = True
+COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
 CSRF_TRUSTED_ORIGINS = ["https://www.vetmanagementwebclient.onrender.com", "https://vetmanagementwebclient.onrender.com"]
