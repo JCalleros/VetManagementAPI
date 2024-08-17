@@ -19,7 +19,8 @@ def set_auth_cookies(response: Response, access_token: str, refresh_token: Optio
         "secure": settings.COOKIE_SECURE,
         "httponly": settings.COOKIE_HTTPONLY,
         "samesite": settings.COOKIE_SAMESITE,
-        "max_age": access_token_lifetime
+        "max_age": access_token_lifetime,
+        "domain": settings.COOKIE_DOMAIN,
     }
     response.set_cookie("access", access_token, **cookie_settings)
     
@@ -55,6 +56,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                     secure=settings.CSRF_COOKIE_SECURE,
                     httponly=settings.CSRF_COOKIE_HTTPONLY,
                     samesite=settings.CSRF_COOKIE_SAMESITE,
+                    domain=settings.COOKIE_DOMAIN,
                 )
                 
                 token_res.data["message"] = "Login Successful."
