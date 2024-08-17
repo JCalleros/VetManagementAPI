@@ -32,7 +32,6 @@ DOMAIN = getenv("DOMAIN")
 
 COOKIE_SECURE = True
 COOKIE_SAMESITE = 'None'
-COOKIE_DOMAIN = ".onrender.com"
 CORS_ALLOW_CREDENTIALS = True
 CSRF_TRUSTED_ORIGINS = [".onrender.com"]
 CSRF_COOKIE_SECURE = True
@@ -41,7 +40,7 @@ CSRF_COOKIE_HTTPONLY = True
 ALLOWED_HOSTS = [".onrender.com"]
 
 # Additional CORS settings, if needed
-CORS_ALLOWED_ORIGINS = getenv("CORS_ALLOWED_ORIGINS", "").split(","),
+CORS_ALLOWED_ORIGINS="https://vetmanagementwebclient.onrender.com"
 
 # Ensure other security-related settings are correctly configured
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
