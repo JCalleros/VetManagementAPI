@@ -31,13 +31,12 @@ DOMAIN = getenv("DOMAIN")
 
 
 COOKIE_SECURE = True
-COOKIE_SAMESITE = None
-COOKIE_SAMESITE = None
-COOKIE_DOMAIN = None
+COOKIE_SAMESITE = 'None'
+COOKIE_DOMAIN = getenv("COOKIE_DOMAIN")
 CORS_ALLOW_CREDENTIALS = True
 CSRF_TRUSTED_ORIGINS = ["https://vet-management-web-client.vercel.app"]
 CSRF_COOKIE_SECURE = True
-CSRF_COOKIE_SAMESITE = None
+CSRF_COOKIE_SAMESITE = 'None'
 CSRF_COOKIE_HTTPONLY = True
 ALLOWED_HOSTS = ["vetmanagementapi.onrender.com"]
 
