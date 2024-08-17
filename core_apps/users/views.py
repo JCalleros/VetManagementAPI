@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from django.shortcuts import render
+from django.middleware.csrf import get_token
 
 logger = logging.getLogger(__name__)
 
@@ -46,6 +47,15 @@ class CustomTokenObtainPairView(TokenObtainPairView):
                 set_auth_cookies(token_res, access_token=access_token, refresh_token=refresh_token)
                 token_res.data.pop("access", None)
                 token_res.data.pop("refresh", None)
+                csrf_token = get_token(request)
+                token_res.set_cookie(
+                    'csrftoken',
+                    csrf_token,
+                    max_age=60 * 60 * 24 * 365,  # 1 year
+                    secure=settings.CSRF_COOKIE_SECURE,
+                    httponly=settings.CSRF_COOKIE_HTTPONLY,
+                    samesite=settings.CSRF_COOKIE_SAMESITE,
+                )
                 
                 token_res.data["message"] = "Login Successful."
             else:

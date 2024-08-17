@@ -30,14 +30,13 @@ SERVER_EMAIL = getenv("DEFAULT_FROM_EMAIL")
 DOMAIN = getenv("DOMAIN")
 
 
-COOKIE_SECURE = True# Set SameSite to None to allow cross-origin requests
-COOKIE_SAMESITE = "None"# Ensure cookies are sent with credentials (i.e., include them in cross-origin requests)
-CORS_ALLOW_CREDENTIALS = True# Trusted origins for CSRF protection
+COOKIE_SECURE = True
+COOKIE_SAMESITE = "None"
+CORS_ALLOW_CREDENTIALS = True
 CSRF_TRUSTED_ORIGINS = ["https://vet-management-web-client.vercel.app"]
-CSRF_COOKIE_SECURE = True# Ensures the cookie is only sent over HTTPS
-CSRF_COOKIE_SAMESITE = 'None'# Allows cross-site requests
-CSRF_COOKIE_HTTPONLY = True# Optional, prevents JavaScript access to the cookie
-# Allowed hosts for this environment
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
+CSRF_COOKIE_HTTPONLY = True
 ALLOWED_HOSTS = ["vetmanagementapi.onrender.com"]
 
 # Additional CORS settings, if needed
