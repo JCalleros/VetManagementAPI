@@ -41,6 +41,9 @@ COOKIE_SAMESITE="None"
 COOKIE_PATH="/"
 COOKIE_HTTPONLY = True
 COOKIE_SECURE = True
+SESSION_COOKIE_SAMESITE = 'None'
+CSRF_COOKIE_SAMESITE = 'None'
+CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
 CSRF_TRUSTED_ORIGINS = ["https://www.vetmanagementwebclient.onrender.com", "https://vetmanagementwebclient.onrender.com"]
