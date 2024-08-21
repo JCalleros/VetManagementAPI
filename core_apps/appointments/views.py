@@ -20,7 +20,7 @@ class AppointmentListAPIView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     object_label = "appointments"
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filterset_fields = ['patient', 'status', 'date']
+    filterset_fields = ['patients', 'status', 'date']
     search_fields = ['service_type', 'notes']
     queryset = Appointment.objects.order_by('-created_at')
 
@@ -38,6 +38,7 @@ class AppointmentDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     renderer_classes = [GenericJSONRenderer]
     permission_classes = [permissions.IsAuthenticated]
     lookup_field = 'id'
+    object_label = "appointment"
 
 
 class AppointmentUpdateAPIView(generics.UpdateAPIView):

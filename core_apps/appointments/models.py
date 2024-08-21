@@ -10,7 +10,7 @@ class Appointment(TimeStampedModel):
         COMPLETED = 'completed', _('Completed')
         CANCELED = 'canceled', _('Canceled')
 
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, verbose_name=_("Patient"), related_name='appointments')
+    patients = models.ManyToManyField(Patient, verbose_name=_("Patients"), related_name='appointments')
     date = models.DateTimeField()
     service_type = models.CharField(max_length=100)
     status = models.CharField(
