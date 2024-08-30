@@ -21,7 +21,8 @@ class Appointment(TimeStampedModel):
     notes = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f"Appointment for {self.patient.name} on {self.date}"
+        patients = [f"{patient.name}" for patient in self.patients.all()]
+        return f"Appointment for {patients} on {self.date}"
 
     class Meta:
         ordering = ['-date']

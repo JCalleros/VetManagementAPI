@@ -21,7 +21,7 @@ class AppointmentListAPIView(generics.ListAPIView):
     object_label = "appointments"
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
     filterset_fields = ['patients', 'status', 'date']
-    search_fields = ['service_type', 'notes']
+    search_fields = ['service_type', 'status', 'notes']
     queryset = Appointment.objects.order_by('-created_at')
 
 

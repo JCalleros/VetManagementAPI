@@ -24,7 +24,6 @@ class OwnerListAPIView(generics.ListAPIView):
     search_fields = ["name", "phone_number"]
     filterset_fields = ["name", "phone_number"]
     queryset = Owner.objects.order_by('-created_at')
-    
 
 class OwnerCreateAPIView(generics.CreateAPIView):
     queryset = Owner.objects.all()
