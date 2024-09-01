@@ -1,11 +1,13 @@
 from django.http import Http404
 from rest_framework import generics, permissions, filters, status
 from django_filters.rest_framework import DjangoFilterBackend
+from django_filters import FilterSet, DateFilter
 from .models import Appointment
 from .serializers import AppointmentSerializer
 from core_apps.common.renderers import GenericJSONRenderer
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.response import Response 
+from rest_framework.response import Response
+
 
 class StandardResultsSetPagination(PageNumberPagination):
     page_size = 10
@@ -13,6 +15,15 @@ class StandardResultsSetPagination(PageNumberPagination):
     max_page_size = 100
 
 
+class AppointmentFilter(FilterSet):
+    start_date = DateFilter(field_name="date", lookup_expr='gte')
+    end_date = DateFilter(field_name="date", lookup_expr='lte')
+
+    class Meta:
+        model = Appointment
+        fields = ['patients', 'status', 'start_date', 'end_date']
+
+ 
 class AppointmentListAPIView(generics.ListAPIView):
     serializer_class = AppointmentSerializer
     renderer_classes = [GenericJSONRenderer]
@@ -20,10 +31,10 @@ class AppointmentListAPIView(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     object_label = "appointments"
     filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-    filterset_fields = ['patients', 'status', 'date']
+    filterset_class = AppointmentFilter
     search_fields = ['service_type', 'status', 'notes']
     queryset = Appointment.objects.order_by('-created_at')
-
+ 
 
 class AppointmentCreateAPIView(generics.CreateAPIView):
     queryset = Appointment.objects.all()
