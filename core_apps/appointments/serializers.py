@@ -33,3 +33,13 @@ class AppointmentSerializer(serializers.ModelSerializer):
         except IntegrityError: 
             raise ValidationError({"detail": "Duplicate appointment"})
         return appointment
+    
+
+class DateRangeSerializer(serializers.Serializer):
+    start_date = serializers.DateField(required=True)
+    end_date = serializers.DateField(required=True)
+
+    def validate(self, data):
+        if data['start_date'] > data['end_date']:
+            raise serializers.ValidationError("End date must be greater than start date.")
+        return data
